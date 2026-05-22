@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The "Anti-Homework" Book Club | Sligo Public Libraries</title>
+    <meta name="description" content="Find your perfect, pressure-free reading community and reclaim your social evenings.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="The Anti-Homework Book Club">
+    <meta property="og:description" content="Find your perfect, pressure-free reading community and reclaim your social evenings.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Anti-Homework Book Club">
+    <meta name="twitter:description" content="Find your perfect, pressure-free reading community and reclaim your social evenings.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light' || (!savedTheme && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+            document.documentElement.classList.add('light');
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg: #020a18;
+            --bg-grad: linear-gradient(170deg, #020a18, #041028 40%, #06142e 70%, #020a18);
+            --surface: rgba(8, 24, 56, 0.85);
+            --border: rgba(0, 170, 255, 0.12);
+            --text: #d0e0f0;
+            --text-bright: #e8f0ff;
+            --text-dim: #6888aa;
+
+            --neon: #00aaff;
+            --cyan: #00e5ff;
+            --green: #00ff88;
+            --amber: #ffaa00;
+
+            --orb-opacity: 0.15;
+            --grid-opacity: 0.03;
+        }
+
+        html.light {
+            --bg: #f8fafc;
+            --bg-grad: linear-gradient(170deg, #f8fafc, #eef2f6 40%, #e2e8f0 70%, #f8fafc);
+            --surface: rgba(255, 255, 255, 0.85);
+            --border: rgba(0, 0, 0, 0.1);
+            --text: #334155;
+            --text-bright: #0f172a;
+            --text-dim: #64748b;
+
+            --neon: #0284c7;
+            --cyan: #0891b2;
+            --green: #16a34a;
+            --amber: #d97706;
+
+            --orb-opacity: 0.4;
+            --grid-opacity: 0.05;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            background-image: var(--bg-grad);
+            color: var(--text);
+            line-height: 1.65;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(to right, var(--text-dim) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--text-dim) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: var(--grid-opacity);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            pointer-events: none;
+            opacity: var(--orb-opacity);
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--cyan);
+            top: 10%;
+            left: calc(50% - 800px);
+            animation: orbit 20s linear infinite;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--amber);
+            bottom: 20%;
+            right: calc(50% - 800px);
+            animation: orbit 25s linear infinite reverse;
+        }
+
+        @keyframes orbit {
+            0% { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+        }
+
+        .container {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding: 16px 0;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.125rem;
+            color: var(--text-bright);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-bright);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--border);
+        }
+
+        h1, h2, h3 {
+            color: var(--text-bright);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        h1 { font-size: 3rem; letter-spacing: -0.02em; }
+        h2 { font-size: 2rem; margin-top: 48px;}
+        h3 { font-size: 1.25rem; }
+
+        p { margin-bottom: 16px; }
+
+        .eyebrow {
+            color: var(--neon);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.875rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--neon);
+            color: #fff;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.125rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--cyan);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 170, 255, 0.2);
+        }
+
+        #hero {
+            text-align: center;
+            padding: 80px 0 60px;
+        }
+
+        #hero p {
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .card h3 {
+            color: var(--text-bright);
+            margin-bottom: 12px;
+        }
+
+        .experience-block {
+            background: linear-gradient(135deg, var(--surface), rgba(255, 170, 0, 0.05));
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--amber);
+            border-radius: 12px;
+            padding: 32px;
+            margin: 64px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .experience-block::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: var(--amber);
+            filter: blur(60px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .quote-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            margin-bottom: 64px;
+        }
+
+        blockquote {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            font-style: italic;
+            color: var(--text-bright);
+        }
+
+        cite {
+            display: block;
+            margin-top: 16px;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--text-dim);
+            font-size: 0.875rem;
+        }
+
+        .faq-item {
+            margin-bottom: 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .faq-item summary {
+            padding: 20px;
+            font-weight: 600;
+            color: var(--text-bright);
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--neon);
+            line-height: 1;
+        }
+
+        .faq-item[open] summary::after {
+            content: '−';
+        }
+
+        .faq-item p {
+            padding: 0 20px 20px;
+            margin: 0;
+            color: var(--text-dim);
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 80px 0;
+            position: relative;
+        }
+
+        #qualifier {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 80px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .light #qualifier {
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        #quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .quiz-progress {
+            font-size: 0.875rem;
+            color: var(--text-dim);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .quiz-question {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-bright);
+            margin-bottom: 32px;
+            line-height: 1.3;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quiz-option {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            line-height: 1.5;
+        }
+
+        .quiz-option:hover {
+            background: var(--border);
+            border-color: var(--neon);
+            color: var(--text-bright);
+        }
+
+        .quiz-result {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-tier {
+            color: var(--neon);
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .result-title {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            color: var(--text-bright);
+        }
+
+        .result-copy {
+            font-size: 1.125rem;
+            color: var(--text-dim);
+            margin-bottom: 32px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.25rem; }
+            #qualifier { padding: 24px; }
+            .quiz-question { font-size: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                </svg>
+                Sligo Public Libraries
+            </a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <svg id="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                <svg id="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="hero">
+            <span class="eyebrow">Find your perfect reading community</span>
+            <h1>The "Anti-Homework" Book Club</h1>
+            <p>A six-week, librarian-facilitated social salon for regular readers who want community connection without the performance anxiety. Post-meeting drinks included.</p>
+            <a href="#qualifier" class="btn" onclick="document.getElementById('qualifier').scrollIntoView({behavior: 'smooth'})">Find Your Cohort</a>
+        </section>
+
+        <section id="reasons">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>No Rigid Pacing</h3>
+                    <p>You are tired of reading in isolation but dread the stressful, rigid pacing of traditional reading groups.</p>
+                </div>
+                <div class="card">
+                    <h3>Psychologically Safe</h3>
+                    <p>You crave a psychologically safe environment where a trained librarian prevents the toxic "mean girl" dynamic.</p>
+                </div>
+                <div class="card">
+                    <h3>Protected Time</h3>
+                    <p>You want a guaranteed, high-quality Wednesday evening out that protects your free time from endless, unfocused scrolling.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="experience-block">
+            <span class="eyebrow">The Wednesday Evening Ritual</span>
+            <h2>Zero-pressure socializing</h2>
+            <p>Arrive at the Sligo Library for a tightly curated, librarian-led discussion where finishing the book is entirely optional. We de-weaponize the reading schedule—the book is just a high-quality icebreaker. After a guided, focused session, the cohort transitions to the foyer for a complimentary post-meeting drink, where the real, zero-pressure socializing happens. All the joy of a literary community, none of the academic obligation.</p>
+        </section>
+
+        <section id="social-proof">
+            <h2>Why readers are looking for a change</h2>
+            <div class="quote-grid">
+                <blockquote>
+                    "You like the idea of a book club, but not the stress of keeping up with a set pace... a book club that feels like homework."
+                    <cite>— Reddit (r/Denver)</cite>
+                </blockquote>
+                <blockquote>
+                    "She slowly took control of book club with spread sheets and finger foods... Then my two longest standing friends quit. They felt judged and unwelcome."
+                    <cite>— Reddit (r/AmIOverreacting)</cite>
+                </blockquote>
+                <blockquote>
+                    "I'm also dealing with the rotten attention span that most of our generation struggles with... doesn't mean we're performing book club as an intellectual signifier."
+                    <cite>— Reddit (r/RSbookclub)</cite>
+                </blockquote>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions</h2>
+            <details class="faq-item">
+                <summary>What if I don't finish the book?</summary>
+                <p>That is completely fine. Nearly 30% of adults struggle to finish what they start reading. Our cohorts are designed around the social experience. You will never be judged or tested on your reading completion rate.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Why does this cost €60-€120 when other clubs are free?</summary>
+                <p>Free groups suffer from high drop-out rates and unfocused time. Your fee acts as a commitment device to ensure a dedicated group, provides a trained librarian to expertly moderate the discussion, and covers your post-meeting hospitality.</p>
+            </details>
+            <details class="faq-item">
+                <summary>I struggle to focus for more than a few minutes. Is this for me?</summary>
+                <p>Yes. We know 35% of adults are "lapsed readers" battling digital distractions. You can take our quiz below to be matched into our "Slow Read" stream, designed specifically for your pacing.</p>
+            </details>
+            <details class="faq-item">
+                <summary>How do I know I won't get stuck in a group with a mismatched vibe?</summary>
+                <p>We use a strict matchmaking qualifier. You will only be placed in a cohort with people who share your exact reading habits, attention span, and social preferences.</p>
+            </details>
+        </section>
+
+        <div class="divider"></div>
+
+        <section id="qualifier">
+            <div id="quiz-container">
+                <div id="quiz-flow">
+                    <div class="quiz-progress">Question <span id="q-current">1</span> of 5</div>
+                    <div class="quiz-question" id="q-text">Loading question...</div>
+                    <div class="quiz-options" id="q-options"></div>
+                </div>
+
+                <div id="quiz-result" class="quiz-result">
+                    <div class="result-tier" id="r-tier">Your Match</div>
+                    <h2 class="result-title" id="r-title">Result Title</h2>
+                    <p class="result-copy" id="r-copy">Result copy goes here.</p>
+                    <a href="#" class="btn" id="r-cta">Join Cohort</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Sligo Public Libraries. This is a conceptual prototype.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIcon = document.getElementById('sun-icon');
+        const html = document.documentElement;
+
+        function updateIcons() {
+            if (html.classList.contains('light')) {
+                moonIcon.style.display = 'block';
+                sunIcon.style.display = 'none';
+            } else {
+                moonIcon.style.display = 'none';
+                sunIcon.style.display = 'block';
+            }
+        }
+
+        updateIcons();
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('light');
+            updateIcons();
+            localStorage.setItem('theme', html.classList.contains('light') ? 'light' : 'dark');
+        });
+
+        // Quiz Logic
+        // FIX 1: Complete questions array with all 5 questions and properly typed options
+        const questions = [
+            {
+                q: "How would you describe your current reading life?",
+                options: [
+                    { text: "I mostly read popular fiction — thrillers, romance, fantasy. I know what I like.", type: "A" },
+                    { text: "I used to read a lot more. Life got busy and my attention span suffered.", type: "B" },
+                    { text: "I read regularly but spend too long deciding what to pick up next.", type: "C" }
+                ]
+            },
+            {
+                q: "What is your primary goal for joining this 6-week cohort?",
+                options: [
+                    { text: "To talk about books I actually enjoy with people who get the hype.", type: "A" },
+                    { text: "To rebuild a reading habit without pressure or judgment.", type: "B" },
+                    { text: "To be challenged by great books I wouldn't have chosen myself.", type: "C" }
+                ]
+            },
+            {
+                q: "How do you feel about weekly reading deadlines?",
+                options: [
+                    { text: "Fine — if it's a page-turner I'll fly through it anyway.", type: "A" },
+                    { text: "They stress me out. I'd rather go at my own pace.", type: "B" },
+                    { text: "I like a loose structure — a target is helpful but not a test.", type: "C" }
+                ]
+            },
+            {
+                q: "What is your ideal book format for a six-week period?",
+                options: [
+                    { text: "One book per fortnight — fast-paced and gripping each time.", type: "A" },
+                    { text: "One short book or a long book split across the whole six weeks.", type: "B" },
+                    { text: "One substantial literary novel or non-fiction title, read at a measured pace.", type: "C" }
+                ]
+            },
+            {
+                q: "When you think about the post-meeting drink in the foyer, what are you most excited to talk about?",
+                options: [
+                    { text: "Which character had the best glow-up and which tropes we loved or hated.", type: "A" },
+                    { text: "Honestly, anything — I just want good conversation with no pressure.", type: "B" },
+                    { text: "The ideas in the book and what it says about how we live now.", type: "C" }
+                ]
+            }
+        ];
+
+        const tiers = {
+            "A": {
+                title: 'The "Trending & Tropes" Stream',
+                copy: 'You belong in the "Trending & Tropes" stream. Designed for readers who love fast-paced, highly engaging genres like spicy romance, psychological thrillers, and viral fantasy hits. We\'re bringing the digital reading community into a physical space for you.',
+                cta: "Join Trending & Tropes (€60)"
+            },
+            "B": {
+                title: 'The "Slow Read" Stream',
+                copy: 'You belong in the "Slow Read" stream. Perfect if you\'re a time-poor professional or dealing with a fractured attention span. We tackle shorter texts or spread a single novel across the entire six weeks. Deep engagement, zero pressure, no weekly panic.',
+                cta: "Join the Slow Read (€90)"
+            },
+            "C": {
+                title: 'The "Contemporary Curations" Stream',
+                copy: 'You belong in the "Contemporary Curations" stream. The perfect match for the regular reader suffering from decision fatigue. You\'ll get the best newly released literary fiction and non-fiction, expertly hand-picked by our librarians to provoke robust, facilitated debate.',
+                cta: "Join Contemporary Curations (€120)"
+            }
+        };
+
+        let currentStep = 0;
+        let answers = { A: 0, B: 0, C: 0 };
+
+        const elFlow = document.getElementById('quiz-flow');
+        const elResult = document.getElementById('quiz-result');
+        const elQText = document.getElementById('q-text');
+        const elQOptions = document.getElementById('q-options');
+        const elQCurrent = document.getElementById('q-current');
+
+        function renderQuestion() {
+            // FIX 2: Use currentStep index to access the correct question
+            const q = questions[currentStep];
+            elQCurrent.textContent = currentStep + 1;
+            elQText.textContent = q.q;
+            elQOptions.innerHTML = '';
+
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.textContent = opt.text;
+                btn.onclick = () => handleAnswer(opt.type);
+                elQOptions.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(type) {
+            answers[type]++;
+            currentStep++;
+
+            if (currentStep < questions.length) {
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            elFlow.style.display = 'none';
+
+            let winner = Object.keys(answers).reduce((a, b) => answers[a] > answers[b] ? a : b);
+            const resultData = tiers[winner];
+
+            document.getElementById('r-tier').textContent = `Tier ${winner === 'A' ? '1' : winner === 'B' ? '2' : '3'} Match`;
+            document.getElementById('r-title').textContent = resultData.title;
+            document.getElementById('r-copy').textContent = resultData.copy;
+            document.getElementById('r-cta').textContent = resultData.cta;
+
+            elResult.style.display = 'block';
+        }
+
+        // FIX 3: renderQuestion() is already at the bottom of the body so the DOM
+        // is ready — no change needed here, but keeping it clear
+        renderQuestion();
+    </script>
+</body>
+</html>
